@@ -1,0 +1,32 @@
+#!/sbin/sh
+BLOCK_PATH=/dev/block/
+BUSYBOX_PATH=/sbin/busybox
+
+$BUSYBOX_PATH ls -l $BLOCK_PATH > /tmp/devblock.txt 2>&1
+
+for line in `$BUSYBOX_PATH cat /proc/cmdline`
+do
+
+	 if [ ${line%%=*} = 'partitions' ];then
+			
+			partitions=${line##*=}
+			
+			part=" "
+			while [ "$part" != "$partitions" ]
+			do
+				
+				part=${partitions%%:*}
+				$BUSYBOX_PATH ln -s "$BLOCK_PATH"${part#*@} "$BLOCK_PATH"${part%@*} >> /tmp/devblock.txt 2>&1
+				
+				if [ "misc" = ${part%@*} ];then
+						$BUSYBOX_PATH chmod 666 "$BLOCK_PATH"${part#*@} >> /tmp/devblock.txt 2>&1
+				fi
+				
+				partitions=${partitions#*:}
+		
+			done	
+	 fi
+	
+done	
+
+$BUSYBOX_PATH ls -l $BLOCK_PATH >> /tmp/devblock.txt 2>&1

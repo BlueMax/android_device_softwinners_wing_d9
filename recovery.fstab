@@ -1,0 +1,12 @@
+# mount point	fstype		device					device2
+# /bootloader	vfat		/dev/block/bootloader
+/env			emmc		/dev/block/env
+/boot			emmc		/dev/block/boot			flags=backup=1
+/system			ext4		/dev/block/system		flags=backup=1;wipeingui
+/data			ext4		/dev/block/data			flags=backup=1;wipeduringfactoryreset;wipeingui
+/misc			emmc		/dev/block/misc
+/recovery		emmc		/dev/block/recovery		flags=backup=1
+/databk			ext4		/dev/block/databk
+/cache			ext4		/dev/block/cache		flags=backup=1;wipeduringfactoryreset;wipeingui
+/sdcard			vfat		/dev/block/UDISK		flags=backup=1;storage;settingsstorage;display="Internal SDCard";wipeingui
+/external_sd	vfat		/dev/block/mmcblk0p1	flags=backup=1;storage;display="External SDCard";wipeingui;removable
